@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdf3786453528ad4da7d2c0c5bccc1c9, type: 3}
-  m_Name: Fish_Doggo
+  m_Name: Fish_Pirate Skull
   m_EditorClassIdentifier: Assembly-CSharp::FishData
-  fishName: Doggo Fish
+  fishName: Pirate Skull Fish
   description: Deskripsi ikan...
   fishIcon: {fileID: 0}
   rarity: 1
