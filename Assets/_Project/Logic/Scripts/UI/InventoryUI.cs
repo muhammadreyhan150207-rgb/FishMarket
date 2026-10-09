@@ -1,11 +1,14 @@
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryUI : MonoBehaviour
 {
-    [Header("UI Elements")]
+    [Header("UI Panel Settings")]
     public GameObject inventoryPanel;
-    public TextMeshProUGUI fishListText;
+
+    [Header("Slot Grid Settings")]
+    public Transform slotContainer; // Drag 'InventoryPanel' (tempat Grid Layout Group) ke sini
+    public GameObject slotPrefab;   // Drag Prefab 'InventorySlotUI' ke sini
 
     private bool isPanelOpen = false;
 
@@ -21,7 +24,10 @@ public class InventoryUI : MonoBehaviour
     public void ToggleInventory()
     {
         isPanelOpen = !isPanelOpen;
-        inventoryPanel.SetActive(isPanelOpen);
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(isPanelOpen);
+        }
 
         if (isPanelOpen)
         {
@@ -29,24 +35,26 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    private void UpdateInventoryDisplay()
+    public void UpdateInventoryDisplay()
     {
-        if (InventoryManager.Instance == null || fishListText == null) return;
+        if (InventoryManager.Instance == null || slotContainer == null || slotPrefab == null) return;
 
-        var fishes = InventoryManager.Instance.caughtFishes;
-
-        if (fishes.Count == 0)
+        // Bersihkan slot lama
+        foreach (Transform child in slotContainer)
         {
-            fishListText.text = "Inventaris Kosong";
-            return;
+            Destroy(child.gameObject);
         }
 
-        string displayText = "<b>=== IKAN TANGKAPAN ===</b>\n\n";
-        foreach (var fish in fishes)
+        // Spawn slot gambar baru berdasarkan isi tas
+        foreach (FishData fish in InventoryManager.Instance.caughtFishes)
         {
-            displayText += $"- {fish.fishName} ({fish.rarity}) | Harga: ${fish.basePrice}\n";
-        }
+            GameObject newSlot = Instantiate(slotPrefab, slotContainer);
+            InventorySlotUI slotScript = newSlot.GetComponent<InventorySlotUI>();
 
-        fishListText.text = displayText;
+            if (slotScript != null)
+            {
+                slotScript.SetSlot(fish);
+            }
+        }
     }
 }

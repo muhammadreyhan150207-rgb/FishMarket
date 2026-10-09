@@ -39,17 +39,17 @@ public class CircularFishingMinigame : MonoBehaviour
         UpdatePositions();
     }
 
-    void HandlePlayerInput()
+   void HandlePlayerInput()
     {
         // Tahan spasi / klik kiri mouse untuk memutar Catch Zone
         if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
         {
-            currentZoneAngle += catchSpeed * Time.deltaTime * 100f;
+            currentZoneAngle += catchSpeed * Time.deltaTime * 10f;
         }
         else
         {
             // Melambat / mundur sedikit saat tombol dilepas
-            currentZoneAngle -= catchSpeed * 0.5f * Time.deltaTime * 100f;
+            currentZoneAngle -= catchSpeed * 0.5f * Time.deltaTime * 10f;
         }
 
         currentZoneAngle %= 360f;
@@ -57,12 +57,11 @@ public class CircularFishingMinigame : MonoBehaviour
 
     void MoveFish()
     {
-        // Pergerakan acak ikan melingkar
-        float randomMovement = Mathf.PerlinNoise(Time.time * 2f, 0f) - 0.5f;
-        currentFishAngle += randomMovement * fishSpeed * Time.deltaTime * 100f;
+        // Pergerakan acak ikan melingkar yang lebih halus
+        float randomMovement = Mathf.PerlinNoise(Time.time * 1.5f, 0f) - 0.5f;
+        currentFishAngle += randomMovement * fishSpeed * Time.deltaTime * 10f;
         currentFishAngle %= 360f;
     }
-
     void CheckCatchLogic()
     {
         // Hitung selisih sudut antara ikan dan area hijau
@@ -70,13 +69,13 @@ public class CircularFishingMinigame : MonoBehaviour
 
         if (angleDifference <= zoneSize / 2f)
         {
-            // Ikan ada di dalam area hijau -> Progress bertambah
-            catchProgress += Time.deltaTime * 0.25f;
+            // Ikan ada di dalam area hijau -> Progress bertambah lebih cepat (misal 0.35f)
+            catchProgress += Time.deltaTime * 0.35f;
         }
         else
         {
-            // Ikan di luar area hijau -> Progress berkurang
-            catchProgress -= Time.deltaTime * 0.15f;
+            // Ikan di luar area hijau -> Progress berkurang LEBIH LAMBAT (ubah dari 0.15f jadi 0.08f)
+            catchProgress -= Time.deltaTime * 0.08f;
         }
 
         catchProgress = Mathf.Clamp01(catchProgress);
