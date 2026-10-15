@@ -7,10 +7,19 @@ public class InventoryUI : MonoBehaviour
     public GameObject inventoryPanel;
 
     [Header("Slot Grid Settings")]
-    public Transform slotContainer; // Drag 'InventoryPanel' (tempat Grid Layout Group) ke sini
-    public GameObject slotPrefab;   // Drag Prefab 'InventorySlotUI' ke sini
+    public Transform slotContainer;
+    public GameObject slotPrefab;
 
     private bool isPanelOpen = false;
+
+    private void Start()
+    {
+        // Pastikan panel tertutup saat game dimulai
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(false);
+        }
+    }
 
     private void Update()
     {
@@ -37,15 +46,17 @@ public class InventoryUI : MonoBehaviour
 
     public void UpdateInventoryDisplay()
     {
-        if (InventoryManager.Instance == null || slotContainer == null || slotPrefab == null) return;
+        if (slotContainer == null || slotPrefab == null) return;
 
-        // Bersihkan slot lama
+        // Bersihkan slot lama agar tidak menumpuk
         foreach (Transform child in slotContainer)
         {
             Destroy(child.gameObject);
         }
 
-        // Spawn slot gambar baru berdasarkan isi tas
+        if (InventoryManager.Instance == null) return;
+
+        // Buat slot baru sesuai jumlah ikan di inventory
         foreach (FishData fish in InventoryManager.Instance.caughtFishes)
         {
             GameObject newSlot = Instantiate(slotPrefab, slotContainer);
