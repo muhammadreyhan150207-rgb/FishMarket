@@ -3,117 +3,171 @@ using UnityEngine.UI;
 
 public class CircularFishingMinigame : MonoBehaviour
 {
-    [Header("UI Components")]
-    public GameObject minigamePanel;
-    public RectTransform catchZone;
-    public RectTransform fishIcon;
-    public Image progressBar;
+    [Header("UI References")]
+    [SerializeField] private GameObject minigamePanel;   // FishingMinigamePanel
+    [SerializeField] private RectTransform circularTrack; // Img_CircularTrack
+    [SerializeField] private RectTransform catchZone;     // Img_CatchZone (Zona Hijau/Pencari)
+    [SerializeField] private RectTransform fishIcon;      // Img_FishIcon (Ikan Merah)
+    [SerializeField] private Image progressBarImage;      // Img_ProgressBar
 
-    [Header("Minigame Settings")]
-    public float radius = 100f;          // Jarak radius lingkaran
-    public float zoneSize = 45f;         // Ukuran area hijau (derajat)
-    public float catchSpeed = 50f;       // Kecepatan putar player
-    public float fishSpeed = 80f;        // Kecepatan putar ikan
+    [Header("Track Boundary Settings")]
+    [SerializeField] private float trackRadius = 60f;      // Nilai diperkecil agar ikan TIDAK KELUAR lingkaran
+
+    [Header("Fish Movement Speeds")]
+    [SerializeField] private float slowSpeed = 40f;        // Kecepatan momen pelan
+    [SerializeField] private float fastSpeed = 160f;       // Kecepatan momen melesat cepat
+    [SerializeField] private float directionChangeInterval = 1.2f; // Jeda ganti arah/kecepatan
+
+    [Header("Catch Zone Settings")]
+    [SerializeField] private float catchZoneRadius = 30f;  
+    [SerializeField] private float idleDriftSpeed = 30f;   
+
+    [Header("Progress Settings")]
+    [SerializeField] private float baseFillSpeed = 0.3f;   // Kecepatan dasar bar bertambah
+    [SerializeField] private float drainSpeed = 0.25f;     // Kecepatan bar berkurang jika meleset
+    [SerializeField] private float slowdownThreshold = 0.7f;// Titik melambat saat hampir strike (70%)
+    [SerializeField] private float slowdownFactor = 0.4f;   // Pengali kelambatan (40% dari kecepatan biasa)
     
-    private float currentZoneAngle = 0f;
-    private float currentFishAngle = 0f;
-    private float catchProgress = 0.3f;  // Mulai dari 30%
+    // Internal Variables
+    private float currentProgress = 0.2f; 
+    private Vector2 fishTargetPosition;
+    private float fishTimer;
+    private float currentFishSpeed;
     private bool isMinigameActive = false;
 
     public void StartMinigame()
     {
-        minigamePanel.SetActive(true);
+        if (minigamePanel != null) minigamePanel.SetActive(true);
+        gameObject.SetActive(true);
+
+        currentProgress = 0.2f;
+        if (progressBarImage != null) progressBarImage.fillAmount = currentProgress;
+        
+        if (fishIcon != null) fishIcon.anchoredPosition = Vector2.zero;
+        if (catchZone != null) catchZone.anchoredPosition = Vector2.zero;
+        
+        GetNewFishTarget();
         isMinigameActive = true;
-        catchProgress = 0.3f;
-        currentZoneAngle = 0f;
-        currentFishAngle = Random.Range(0f, 360f);
     }
 
-    void Update()
+    private void Update()
     {
         if (!isMinigameActive) return;
 
-        HandlePlayerInput();
-        MoveFish();
-        CheckCatchLogic();
-        UpdatePositions();
+        HandleCatchZoneMovement();
+        HandleFishMovement();
+        CheckOverlapAndProgress();
     }
 
-   void HandlePlayerInput()
+    // 1. Kontrol Catch Zone via Mouse
+    private void HandleCatchZoneMovement()
     {
-        // Tahan spasi / klik kiri mouse untuk memutar Catch Zone
-        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)) // Klik Kiri Ditahan
         {
-            currentZoneAngle += catchSpeed * Time.deltaTime * 10f;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                circularTrack,
+                Input.mousePosition,
+                null,
+                out Vector2 localMousePos
+            );
+
+            // Batasi agar catch zone tetap di dalam track
+            catchZone.anchoredPosition = Vector2.ClampMagnitude(localMousePos, trackRadius);
         }
         else
         {
-            // Melambat / mundur sedikit saat tombol dilepas
-            currentZoneAngle -= catchSpeed * 0.5f * Time.deltaTime * 10f;
+            catchZone.anchoredPosition += Random.insideUnitCircle * (idleDriftSpeed * Time.deltaTime);
+            catchZone.anchoredPosition = Vector2.ClampMagnitude(catchZone.anchoredPosition, trackRadius);
+        }
+    }
+
+    // 2. Pergerakan Ikan Dinamis (Variasi Pelan & Cepat)
+    private void HandleFishMovement()
+    {
+        fishTimer += Time.deltaTime;
+
+        if (fishTimer >= directionChangeInterval || Vector2.Distance(fishIcon.anchoredPosition, fishTargetPosition) < 5f)
+        {
+            GetNewFishTarget();
         }
 
-        currentZoneAngle %= 360f;
+        fishIcon.anchoredPosition = Vector2.MoveTowards(
+            fishIcon.anchoredPosition,
+            fishTargetPosition,
+            currentFishSpeed * Time.deltaTime
+        );
     }
 
-    void MoveFish()
+    private void GetNewFishTarget()
     {
-        // Pergerakan acak ikan melingkar yang lebih halus
-        float randomMovement = Mathf.PerlinNoise(Time.time * 1.5f, 0f) - 0.5f;
-        currentFishAngle += randomMovement * fishSpeed * Time.deltaTime * 10f;
-        currentFishAngle %= 360f;
-    }
-    void CheckCatchLogic()
-    {
-        // Hitung selisih sudut antara ikan dan area hijau
-        float angleDifference = Mathf.Abs(Mathf.DeltaAngle(currentZoneAngle, currentFishAngle));
+        fishTimer = 0f;
+        // Tentukan target acak di dalam radius ketat
+        fishTargetPosition = Random.insideUnitCircle * trackRadius;
 
-        if (angleDifference <= zoneSize / 2f)
+        // Acak momen: 60% peluang momen Pelan, 40% peluang momen Meleset Cepat
+        if (Random.value < 0.6f)
         {
-            // Ikan ada di dalam area hijau -> Progress bertambah lebih cepat (misal 0.35f)
-            catchProgress += Time.deltaTime * 0.35f;
+            currentFishSpeed = slowSpeed;
         }
         else
         {
-            // Ikan di luar area hijau -> Progress berkurang LEBIH LAMBAT (ubah dari 0.15f jadi 0.08f)
-            catchProgress -= Time.deltaTime * 0.08f;
-        }
-
-        catchProgress = Mathf.Clamp01(catchProgress);
-
-        if (progressBar != null)
-            progressBar.fillAmount = catchProgress;
-
-        // Cek kondisi Menang / Kalah
-        if (catchProgress >= 1f)
-        {
-            CompleteMinigame(true);
-        }
-        else if (catchProgress <= 0f)
-        {
-            CompleteMinigame(false);
+            currentFishSpeed = fastSpeed;
         }
     }
 
-    void UpdatePositions()
+    // 3. Overlap & Progress Bar Non-Linear (Melambat di Akhir)
+    private void CheckOverlapAndProgress()
     {
-        // Konversi sudut derajat ke posisi posisi 2D X dan Y melingkar
-        float zoneRad = currentZoneAngle * Mathf.Deg2Rad;
-        catchZone.anchoredPosition = new Vector2(Mathf.Cos(zoneRad) * radius, Mathf.Sin(zoneRad) * radius);
+        float distance = Vector2.Distance(catchZone.anchoredPosition, fishIcon.anchoredPosition);
 
-        float fishRad = currentFishAngle * Mathf.Deg2Rad;
-        fishIcon.anchoredPosition = new Vector2(Mathf.Cos(fishRad) * radius, Mathf.Sin(fishRad) * radius);
+        if (distance <= catchZoneRadius)
+        {
+            // Jika progres sudah melewati threshold (70%), laju bertambahnya melambat
+            float activeFillSpeed = baseFillSpeed;
+            if (currentProgress >= slowdownThreshold)
+            {
+                activeFillSpeed *= slowdownFactor; 
+            }
+
+            currentProgress += activeFillSpeed * Time.deltaTime;
+        }
+        else
+        {
+            currentProgress -= drainSpeed * Time.deltaTime;
+        }
+
+        currentProgress = Mathf.Clamp01(currentProgress);
+
+        if (progressBarImage != null)
+        {
+            progressBarImage.fillAmount = currentProgress;
+        }
+
+        if (currentProgress >= 1f)
+        {
+            OnCatchSuccess();
+        }
+        else if (currentProgress <= 0f)
+        {
+            OnCatchFailed();
+        }
     }
 
-    void CompleteMinigame(bool success)
+    private void OnCatchSuccess()
+    {
+        Debug.Log("Hooray! Ikan Berhasil Ditangkap!");
+        EndMinigame();
+    }
+
+    private void OnCatchFailed()
+    {
+        Debug.Log("Sayang sekali, Ikan Lepas!");
+        EndMinigame();
+    }
+
+    private void EndMinigame()
     {
         isMinigameActive = false;
-        minigamePanel.SetActive(false);
-
-        // Beri tahu FishingSpot bahwa minigame selesai
-        FishingSpot fishingSpot = GetComponent<FishingSpot>();
-        if (fishingSpot != null)
-        {
-            fishingSpot.OnMinigameCompleted(success);
-        }
+        if (minigamePanel != null) minigamePanel.SetActive(false);
     }
 }

@@ -156,7 +156,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 150}
+  m_SizeDelta: {x: 1700, y: 880}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &212622747
 MonoBehaviour:
@@ -269,7 +269,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -60}
+  m_AnchoredPosition: {x: 0, y: -104}
   m_SizeDelta: {x: 120, y: 12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &238223466
@@ -824,7 +824,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1277875096
 RectTransform:
   m_ObjectHideFlags: 0
@@ -834,7 +834,7 @@ RectTransform:
   m_GameObject: {fileID: 1277875095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8578816, y: 0.78751254, z: 1}
+  m_LocalScale: {x: 3.7057912, y: 3.4560628, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 238223465}
@@ -845,7 +845,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 125, y: 0}
+  m_AnchoredPosition: {x: 533, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1277875097
@@ -868,8 +868,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1019,7 +1019,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1139,7 +1139,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1276,13 +1276,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CircularFishingMinigame
   minigamePanel: {fileID: 1277875095}
+  circularTrack: {fileID: 1731340821}
   catchZone: {fileID: 1503796311}
   fishIcon: {fileID: 1452443953}
-  progressBar: {fileID: 238223466}
-  radius: 40
-  zoneSize: 45
-  catchSpeed: 15
-  fishSpeed: 15
+  progressBarImage: {fileID: 238223466}
+  trackRadius: 120
+  slowSpeed: 40
+  fastSpeed: 160
+  directionChangeInterval: 0.8
+  catchZoneRadius: 30
+  idleDriftSpeed: 40
+  baseFillSpeed: 0.3
+  drainSpeed: 0.25
+  slowdownThreshold: 0.7
+  slowdownFactor: 0.4
 --- !u!4 &2136615575 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5167118299367892803, guid: dc75774d6bfb20743b188af23d2647c9, type: 3}
