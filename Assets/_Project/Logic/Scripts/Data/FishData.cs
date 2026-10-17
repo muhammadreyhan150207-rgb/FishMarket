@@ -14,5 +14,8 @@ public class FishData : ScriptableObject
 
     [Header("Mini-Game Settings")]
     [Tooltip("Kecepatan gerak ikan saat mini-game memancing")]
-    public float movementSpeed = 2f; 
+    public float movementSpeed = 2f;
+
+    [Tooltip("Tingkat kesulitan ikan (pengali seberapa cepat progress bar berkurang)")]
+    public float catchDifficulty = 1f;
 }

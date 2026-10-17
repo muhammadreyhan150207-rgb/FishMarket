@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class FishingSpot : MonoBehaviour
 {
+    [Header("Minigame Reference")]
+    public CircularFishingMinigame minigameScript;
+
     [Header("Fish Database")]
     public List<FishData> possibleFishes = new List<FishData>();
 
@@ -13,6 +16,7 @@ public class FishingSpot : MonoBehaviour
 
     private bool isPlayerInZone = false;
     private bool isFishing = false;
+    private FishData pendingFish;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -52,19 +56,37 @@ public class FishingSpot : MonoBehaviour
 
         if (isFishing && possibleFishes.Count > 0)
         {
-            // Ambil ikan acak dari daftar
+            // Pick ikan acak yang akan ditangkap
             int randomIndex = Random.Range(0, possibleFishes.Count);
-            FishData caughtFish = possibleFishes[randomIndex];
+            pendingFish = possibleFishes[randomIndex];
 
-            // Masukkan ke inventaris
+            Debug.Log($"HOOK! Ikan {pendingFish.fishName} menyambar kail! Mulai tarik!");
+
+            // Panggil Minigame Melingkar
+            if (minigameScript != null)
+            {
+                minigameScript.StartMinigame();
+            }
+        }
+    }
+
+    // Dipanggil oleh CircularFishingMinigame saat minigame selesai
+    public void OnMinigameCompleted(bool success)
+    {
+        if (success && pendingFish != null)
+        {
             if (InventoryManager.Instance != null)
             {
-                InventoryManager.Instance.AddFish(caughtFish);
+                InventoryManager.Instance.AddFish(pendingFish);
             }
-
-            Debug.Log($"HOOOK! Kamu mendapatkan: {caughtFish.fishName}!");
+            Debug.Log($"BERHASIL! {pendingFish.fishName} masuk ke inventaris!");
+        }
+        else
+        {
+            Debug.Log("Gagal! Ikan lepas dari kail!");
         }
 
+        pendingFish = null;
         isFishing = false;
     }
 }

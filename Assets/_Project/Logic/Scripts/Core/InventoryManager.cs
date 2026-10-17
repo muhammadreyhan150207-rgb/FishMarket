@@ -7,6 +7,7 @@ public class InventoryManager : MonoBehaviour
 
     [Header("Player Inventory")]
     public List<FishData> caughtFishes = new List<FishData>();
+    public int maxCapacity = 10;
 
     private void Awake()
     {
@@ -21,10 +22,17 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddFish(FishData fish)
+    public bool AddFish(FishData fish)
     {
+        if (caughtFishes.Count >= maxCapacity)
+        {
+            Debug.LogWarning("[INVENTORY] Tas Penuh! Tidak bisa menyimpan ikan lagi.");
+            return false;
+        }
+
         caughtFishes.Add(fish);
         Debug.Log($"[INVENTORY] Berhasil menangkap: {fish.fishName} ({fish.rarity})!");
+        return true;
     }
 
     public void RemoveFish(FishData fish)
