@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: fd7db715dac85524998fdb42e164e636
+guid: b46bd123f48f8fd438d45f4548a7feed
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5116361009859861610
-    second: UI Indikator Waktu _0
+      213: -93316724825147682
+    second: Spr_Fish_Selar_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI Indikator Waktu _0
+      name: Spr_Fish_Selar_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 6
-        width: 63
-        height: 58
+        x: 10
+        y: 27
+        width: 79
+        height: 46
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 693e4a8e4c80ff8b0800000000000000
-      internalID: -5116361009859861610
+      spriteID: ed6b135eee874bef0800000000000000
+      internalID: -93316724825147682
       vertices: []
       indices: 
       edges: []
@@ -135,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      UI Indikator Waktu _0: -5116361009859861610
+      Spr_Fish_Selar_0: -93316724825147682
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
