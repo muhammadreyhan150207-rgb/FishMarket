@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Tenggiri
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
-  rarity: 1
+  fishIcon: {fileID: 21300000, guid: 8481a4db855a6104aac8a1010c46102d, type: 3}
+  rarity: 0
   basePrice: 70
-  movementSpeed: 3.2
+  movementSpeed: 100
+  catchDifficulty: 1
