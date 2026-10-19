@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Kakap
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
-  rarity: 0
+  fishIcon: {fileID: 21300000, guid: 62b63953168143442aa9a49b0692f895, type: 3}
+  rarity: 1
   basePrice: 25
-  movementSpeed: 2.5
+  movementSpeed: 140
+  catchDifficulty: 1

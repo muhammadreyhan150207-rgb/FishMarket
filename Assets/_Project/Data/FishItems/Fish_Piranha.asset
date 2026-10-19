@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fdf3786453528ad4da7d2c0c5bccc1c9, type: 3}
-  m_Name: Fish_Barakuda
+  m_Name: Fish_Piranha
   m_EditorClassIdentifier: Assembly-CSharp::FishData
-  fishName: Ikan Barakuda
+  fishName: Ikan Piranha
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
+  fishIcon: {fileID: 21300000, guid: f338eac7eb4319448a195e09cb6a71fa, type: 3}
   rarity: 1
   basePrice: 90
-  movementSpeed: 4
+  movementSpeed: 180
+  catchDifficulty: 1

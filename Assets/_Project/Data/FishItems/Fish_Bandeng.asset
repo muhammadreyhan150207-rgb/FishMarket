@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Bandeng
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
+  fishIcon: {fileID: 21300000, guid: a206eb87c43ed3144a012f2d0f6fc32e, type: 3}
   rarity: 0
   basePrice: 18
-  movementSpeed: 2.1
+  movementSpeed: 80
+  catchDifficulty: 1

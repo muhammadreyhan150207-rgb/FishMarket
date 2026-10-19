@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Selar
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
+  fishIcon: {fileID: 21300000, guid: b46bd123f48f8fd438d45f4548a7feed, type: 3}
   rarity: 0
   basePrice: 12
-  movementSpeed: 1.8
+  movementSpeed: 100
+  catchDifficulty: 1

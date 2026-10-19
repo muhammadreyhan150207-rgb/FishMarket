@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Terbang
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
-  rarity: 0
+  fishIcon: {fileID: 21300000, guid: 6d523738d7307d348a909643bc6fe4fd, type: 3}
+  rarity: 1
   basePrice: 20
-  movementSpeed: 2.2
+  movementSpeed: 160
+  catchDifficulty: 1
