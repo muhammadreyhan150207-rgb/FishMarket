@@ -132,7 +132,7 @@ public class CircularFishingMinigame : MonoBehaviour
         }
     }
 
-    // --- STRATEGI PENENTUAN RARITY IKAN (80% Common, 50% Rare, 10% Unique) ---
+    // --- STRATEGI PENENTUAN RARITY IKAN (80% Common, 50% Rare, 10% Unique) 
     private void DecideHookedFish()
     {
         // 1. Cek apakah list null atau kosong
@@ -318,6 +318,10 @@ public class CircularFishingMinigame : MonoBehaviour
         if (successPanel != null)
         {
             successPanel.SetActive(true);
+            
+            // JALANKAN ANIMASI BOUNCE DI SINI
+            StopAllCoroutines();
+            StartCoroutine(AnimatePopupBounce());
 
             if (txtFishName != null && caughtFishResult != null)
             {
@@ -327,7 +331,7 @@ public class CircularFishingMinigame : MonoBehaviour
             if (imgCaughtFishSprite != null && caughtFishResult != null)
             {
                 imgCaughtFishSprite.gameObject.SetActive(true);
-                imgCaughtFishSprite.sprite = caughtFishResult.fishIcon; 
+                imgCaughtFishSprite.sprite = caughtFishResult.fishIcon;
             }
         }
     }
@@ -365,6 +369,29 @@ public class CircularFishingMinigame : MonoBehaviour
             {
                 EndFishing(FishingState.Failed);
             }
+        }
+    }
+    // --- EFEK ANIMASI POP-UP BOUNCE ---
+    private IEnumerator AnimatePopupBounce()
+    {
+        float timer = 0f;
+        float duration = 0.25f; // Durasi animasi dalam detik
+        
+        if (successPanel != null)
+        {
+            successPanel.transform.localScale = Vector3.zero;
+
+            while (timer < duration)
+            {
+                timer += Time.deltaTime;
+                float progress = timer / duration;
+                float scale = Mathf.Sin(progress * Mathf.PI * 0.5f);
+                
+                successPanel.transform.localScale = Vector3.one * scale;
+                yield return null;
+            }
+
+            successPanel.transform.localScale = Vector3.one;
         }
     }
 }
