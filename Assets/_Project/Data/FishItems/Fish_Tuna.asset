@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Tuna
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
+  fishIcon: {fileID: 21300000, guid: 9326e592267a4d64abf4c0956355cb73, type: 3}
   rarity: 1
   basePrice: 80
-  movementSpeed: 2
+  movementSpeed: 170
+  catchDifficulty: 1

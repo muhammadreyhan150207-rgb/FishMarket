@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Ikan Kembung
   description: Ikan konsumsi populer dengan harga terjangkau.
-  fishIcon: {fileID: 0}
+  fishIcon: {fileID: 21300000, guid: 2fa01a4efd716f34dbcc44c32296adf0, type: 3}
   rarity: 0
   basePrice: 15
-  movementSpeed: 2
+  movementSpeed: 90
+  catchDifficulty: 1

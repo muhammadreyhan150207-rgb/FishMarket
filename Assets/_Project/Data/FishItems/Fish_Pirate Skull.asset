@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FishData
   fishName: Pirate Skull Fish
   description: Deskripsi ikan...
-  fishIcon: {fileID: 0}
-  rarity: 1
+  fishIcon: {fileID: 21300000, guid: be5094fa9b2ba6e4aaf97928bd73bff1, type: 3}
+  rarity: 2
   basePrice: 300
-  movementSpeed: 5
+  movementSpeed: 230
+  catchDifficulty: 1
